@@ -1,26 +1,131 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1yf-8R-hd5">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MyMaps_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FmX-wg-8GV" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="FmX-wg-8GV" secondAttribute="trailing" id="HX0-YP-TWb"/>
+                            <constraint firstItem="FmX-wg-8GV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="b7y-7W-PGV"/>
+                            <constraint firstAttribute="bottom" secondItem="FmX-wg-8GV" secondAttribute="bottom" id="qPf-fq-tjm"/>
+                            <constraint firstItem="FmX-wg-8GV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="zLC-5K-Ysm"/>
+                        </constraints>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="pGT-QM-BOQ">
+                        <barButtonItem key="leftBarButtonItem" title="Find Route" id="MEQ-ne-HSa">
+                            <connections>
+                                <action selector="findRoute:" destination="BYZ-38-t0r" id="Puz-f4-2Iw"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Map Type" id="f7u-75-4wq">
+                                <connections>
+                                    <action selector="changeMapType:" destination="BYZ-38-t0r" id="sCR-NI-Eu2"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Travel Mode" id="E40-J9-pIU">
+                                <connections>
+                                    <action selector="changeTravelMode:" destination="BYZ-38-t0r" id="SaW-dr-xNU"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="mapView" destination="FmX-wg-8GV" id="Z1i-Du-b1x"/>
+                        <segue destination="day-cH-YFK" kind="show" identifier="showRouteSegue" id="Pn3-1c-Bz0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="930" y="35"/>
+        </scene>
+        <!--Route View Controller-->
+        <scene sceneID="Daj-Db-3zZ">
+            <objects>
+                <viewController id="day-cH-YFK" customClass="RouteViewController" customModule="MyMaps_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="urk-gJ-aX5"/>
+                        <viewControllerLayoutGuide type="bottom" id="k9L-m3-zMl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eHY-a1-gYM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q05-5c-Wvv">
+                                <rect key="frame" x="0.0" y="64" width="320" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="q05-5c-Wvv" secondAttribute="height" multiplier="4:3" id="rJK-IB-kjn"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ks0-In-dnO" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="304" width="320" height="264"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Ks0-In-dnO" firstAttribute="leading" secondItem="eHY-a1-gYM" secondAttribute="leading" id="53C-dJ-z8n"/>
+                            <constraint firstItem="Ks0-In-dnO" firstAttribute="top" secondItem="q05-5c-Wvv" secondAttribute="bottom" id="Ub1-eN-nvq"/>
+                            <constraint firstItem="q05-5c-Wvv" firstAttribute="leading" secondItem="eHY-a1-gYM" secondAttribute="leading" id="cMb-Zn-Opb"/>
+                            <constraint firstAttribute="trailing" secondItem="Ks0-In-dnO" secondAttribute="trailing" id="lhq-JS-UAd"/>
+                            <constraint firstAttribute="trailing" secondItem="q05-5c-Wvv" secondAttribute="trailing" id="tBb-WL-i3h"/>
+                            <constraint firstItem="q05-5c-Wvv" firstAttribute="top" secondItem="urk-gJ-aX5" secondAttribute="bottom" id="udw-ZL-iX6"/>
+                            <constraint firstAttribute="bottom" secondItem="Ks0-In-dnO" secondAttribute="bottom" id="xRL-qR-ZjP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="Ks0-In-dnO" id="J9c-rW-6ce"/>
+                        <outlet property="streetViewImage" destination="q05-5c-Wvv" id="KEa-WY-oIX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yyz-8p-jRD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1681.875" y="34.859154929577464"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iop-iG-U2w">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1yf-8R-hd5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vbP-7J-0tk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="FYf-sf-Jpq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RlY-HL-bdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="210" y="36"/>
         </scene>
     </scenes>
 </document>

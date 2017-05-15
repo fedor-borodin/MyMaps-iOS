@@ -7,14 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CD072CB333D82B9B65F78E9 /* libPods-MyMaps-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00344D0E72EDEB35B34DED01 /* libPods-MyMaps-iOS.a */; };
 		848DED121EC080F800668E0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848DED111EC080F800668E0F /* AppDelegate.swift */; };
 		848DED141EC080F800668E0F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848DED131EC080F800668E0F /* ViewController.swift */; };
 		848DED171EC080F800668E0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 848DED151EC080F800668E0F /* Main.storyboard */; };
 		848DED191EC080F800668E0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 848DED181EC080F800668E0F /* Assets.xcassets */; };
 		848DED1C1EC080F800668E0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 848DED1A1EC080F800668E0F /* LaunchScreen.storyboard */; };
+		84D8868A1EC9E38700C15954 /* MapTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D886891EC9E38700C15954 /* MapTasks.swift */; };
+		84D8868C1EC9ECC000C15954 /* RouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8868B1EC9ECC000C15954 /* RouteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00344D0E72EDEB35B34DED01 /* libPods-MyMaps-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyMaps-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		31F90DE3FDFBAE93A00F1F36 /* Pods-MyMaps-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMaps-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyMaps-iOS/Pods-MyMaps-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		434D27C01AFEF2FCC175819E /* Pods-MyMaps-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMaps-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyMaps-iOS/Pods-MyMaps-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		848DED0E1EC080F800668E0F /* MyMaps-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyMaps-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		848DED111EC080F800668E0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		848DED131EC080F800668E0F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +28,8 @@
 		848DED181EC080F800668E0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		848DED1B1EC080F800668E0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		848DED1D1EC080F800668E0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84D886891EC9E38700C15954 /* MapTasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTasks.swift; sourceTree = "<group>"; };
+		84D8868B1EC9ECC000C15954 /* RouteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +37,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CD072CB333D82B9B65F78E9 /* libPods-MyMaps-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A8E8C2CEFBEB81C5E9F8CA1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				434D27C01AFEF2FCC175819E /* Pods-MyMaps-iOS.debug.xcconfig */,
+				31F90DE3FDFBAE93A00F1F36 /* Pods-MyMaps-iOS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		848DED051EC080F800668E0F = {
 			isa = PBXGroup;
 			children = (
 				848DED101EC080F800668E0F /* MyMaps-iOS */,
 				848DED0F1EC080F800668E0F /* Products */,
+				6A8E8C2CEFBEB81C5E9F8CA1 /* Pods */,
+				EA98CB1A0A671CC4BE6C4F48 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,8 +80,18 @@
 				848DED181EC080F800668E0F /* Assets.xcassets */,
 				848DED1A1EC080F800668E0F /* LaunchScreen.storyboard */,
 				848DED1D1EC080F800668E0F /* Info.plist */,
+				84D886891EC9E38700C15954 /* MapTasks.swift */,
+				84D8868B1EC9ECC000C15954 /* RouteViewController.swift */,
 			);
 			path = "MyMaps-iOS";
+			sourceTree = "<group>";
+		};
+		EA98CB1A0A671CC4BE6C4F48 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00344D0E72EDEB35B34DED01 /* libPods-MyMaps-iOS.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +101,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 848DED201EC080F800668E0F /* Build configuration list for PBXNativeTarget "MyMaps-iOS" */;
 			buildPhases = (
+				03F49E1E553F44BE6745C538 /* [CP] Check Pods Manifest.lock */,
 				848DED0A1EC080F800668E0F /* Sources */,
 				848DED0B1EC080F800668E0F /* Frameworks */,
 				848DED0C1EC080F800668E0F /* Resources */,
+				18DAC0558CD7986ACC56A1CD /* [CP] Embed Pods Frameworks */,
+				E4FAE215906B0AD810091E57 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -132,12 +165,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		03F49E1E553F44BE6745C538 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		18DAC0558CD7986ACC56A1CD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyMaps-iOS/Pods-MyMaps-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E4FAE215906B0AD810091E57 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyMaps-iOS/Pods-MyMaps-iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		848DED0A1EC080F800668E0F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84D8868A1EC9E38700C15954 /* MapTasks.swift in Sources */,
 				848DED141EC080F800668E0F /* ViewController.swift in Sources */,
+				84D8868C1EC9ECC000C15954 /* RouteViewController.swift in Sources */,
 				848DED121EC080F800668E0F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,6 +342,7 @@
 		};
 		848DED211EC080F800668E0F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 434D27C01AFEF2FCC175819E /* Pods-MyMaps-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6DX7KW5KT7;
@@ -272,6 +356,7 @@
 		};
 		848DED221EC080F800668E0F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31F90DE3FDFBAE93A00F1F36 /* Pods-MyMaps-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6DX7KW5KT7;
@@ -302,6 +387,7 @@
 				848DED221EC080F800668E0F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
