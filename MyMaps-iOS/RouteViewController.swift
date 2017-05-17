@@ -33,6 +33,7 @@ class RouteViewController: UIViewController, CLLocationManagerDelegate, GMSMapVi
     var routePolyline: GMSPolyline!
     var markersArray: Array<GMSMarker> = []
     var waypointsArray: Array<String> = []
+    //var imagesArray: Array<UIImage> = []
 
     //var streetViewTarget: StreetViewAttributes?
     
@@ -41,7 +42,8 @@ class RouteViewController: UIViewController, CLLocationManagerDelegate, GMSMapVi
         
         self.displayRoute()
         
-        self.displayStreetView(from: CLLocationCoordinate2DMake(56.3123523, 44.0273087), to: CLLocationCoordinate2DMake(56.3126599, 44.0283495))
+        // need think about how to pass the coordinates here
+        //self.displayStreetView(from: CLLocationCoordinate2DMake(56.3123523, 44.0273087), to: CLLocationCoordinate2DMake(56.3126599, 44.0283495))
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,12 +65,21 @@ class RouteViewController: UIViewController, CLLocationManagerDelegate, GMSMapVi
                 self.configureMapAndMarkersforRoute()
                 self.drawRoute()
                 self.displayRouteInfo()
+                self.displayStreetViewImage(step: 0)
             } else {
                 self.showAlertWithMessage(status)
             }
         }
     }
     
+    // display a street view image by step no
+    func displayStreetViewImage(step: Int) {
+        let imageData = self.mapTasks.streetViewImagesDataArray[step]
+        self.streetViewImage.image = UIImage(data: imageData)
+        self.streetViewImage.contentMode = .scaleAspectFit
+    }
+    
+    // display single Street View Image (not needed... yet)
     func displayStreetView(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) {
         self.mapTasks.getStreetViewImage(fromPoint: from, toPoint: to, size: "320x240") { (status, success) -> Void in
             if success {
