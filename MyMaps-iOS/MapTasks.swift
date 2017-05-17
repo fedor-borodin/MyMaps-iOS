@@ -119,7 +119,10 @@ class MapTasks: NSObject {
                 
                 guard let directionsURL = URL(string: directionsURLString) else {
                     //print("Error while fetching  directions")
-                    completionHandler("Error while fetching directions", false)
+                    DispatchQueue.main.async {
+                        completionHandler("Error while fetching directions", false)
+                    }
+                    
                     return
                 }
                 let request = URLRequest(url: directionsURL)
@@ -149,32 +152,46 @@ class MapTasks: NSObject {
                                 
                                 self.getDirectionsImages() { (imStatus, imSuccess) -> Void in
                                     if imSuccess {
-                                        completionHandler(status, true)
+                                        DispatchQueue.main.async {
+                                            completionHandler(status, true)
+                                        }
                                     } else {
-                                        completionHandler(imStatus, false)
+                                        DispatchQueue.main.async {
+                                            completionHandler(imStatus, false)
+                                        }
                                     }
                                 }
                                 
                                 //completionHandler(status, true)
                             } else {
                                 // status in JSON data was not OK
-                                completionHandler(status, false)
+                                DispatchQueue.main.async {
+                                    completionHandler(status, false)
+                                }
                             }
                         } catch {
                             //could not parse JSON
-                            completionHandler("Error parsing JSON", false)
+                            DispatchQueue.main.async {
+                                completionHandler("Error parsing JSON", false)
+                            }
                         }
                     } else {
                         // error in URLRequest
-                        completionHandler(error! as! String, false)
+                        DispatchQueue.main.async {
+                            completionHandler(error! as! String, false)
+                        }
                     }
                 }
                 task.resume()
             } else {
-                completionHandler("Destination is nil.", false)
+                DispatchQueue.main.async {
+                    completionHandler("Destination is nil.", false)
+                }
             }
         } else {
-            completionHandler("Origin is nil.", false)
+            DispatchQueue.main.async {
+                completionHandler("Origin is nil.", false)
+            }
         }
     }
     
@@ -216,10 +233,14 @@ class MapTasks: NSObject {
                     count += 1
                     
                     if count == steps.count {
-                        completionHandler("OK", true)
+                        DispatchQueue.main.async {
+                            completionHandler("OK", true)
+                        }
                     }
                 } else {
-                    completionHandler("Error loading image", false)
+                    DispatchQueue.main.async {
+                        completionHandler("Error loading image", false)
+                    }
                 }
             }
         }
@@ -241,11 +262,14 @@ class MapTasks: NSObject {
             (data, response, error) in
             if error == nil, let imageData = data {
                 self.streetViewImageData = imageData
-                
-                completionHandler("OK", true)
+                DispatchQueue.main.async {
+                    completionHandler("OK", true)
+                }
             } else {
                 //print(error!)
-                completionHandler(error as! String, false)
+                DispatchQueue.main.async {
+                    completionHandler(error as! String, false)
+                }
             }
         }
         task.resume()

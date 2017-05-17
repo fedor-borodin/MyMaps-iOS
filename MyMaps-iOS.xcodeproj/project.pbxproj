@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0CD072CB333D82B9B65F78E9 /* libPods-MyMaps-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00344D0E72EDEB35B34DED01 /* libPods-MyMaps-iOS.a */; };
+		5816EB7F1ECCAAA500754165 /* NewStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5816EB7E1ECCAAA500754165 /* NewStoryboard.storyboard */; };
 		848DED121EC080F800668E0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848DED111EC080F800668E0F /* AppDelegate.swift */; };
 		848DED141EC080F800668E0F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848DED131EC080F800668E0F /* ViewController.swift */; };
 		848DED171EC080F800668E0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 848DED151EC080F800668E0F /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 		00344D0E72EDEB35B34DED01 /* libPods-MyMaps-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyMaps-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F90DE3FDFBAE93A00F1F36 /* Pods-MyMaps-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMaps-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyMaps-iOS/Pods-MyMaps-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		434D27C01AFEF2FCC175819E /* Pods-MyMaps-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMaps-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyMaps-iOS/Pods-MyMaps-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		5816EB7E1ECCAAA500754165 /* NewStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewStoryboard.storyboard; sourceTree = "<group>"; };
 		848DED0E1EC080F800668E0F /* MyMaps-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyMaps-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		848DED111EC080F800668E0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		848DED131EC080F800668E0F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				848DED1D1EC080F800668E0F /* Info.plist */,
 				84D886891EC9E38700C15954 /* MapTasks.swift */,
 				84D8868B1EC9ECC000C15954 /* RouteViewController.swift */,
+				5816EB7E1ECCAAA500754165 /* NewStoryboard.storyboard */,
 			);
 			path = "MyMaps-iOS";
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 			files = (
 				848DED1C1EC080F800668E0F /* LaunchScreen.storyboard in Resources */,
 				848DED191EC080F800668E0F /* Assets.xcassets in Resources */,
+				5816EB7F1ECCAAA500754165 /* NewStoryboard.storyboard in Resources */,
 				848DED171EC080F800668E0F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
