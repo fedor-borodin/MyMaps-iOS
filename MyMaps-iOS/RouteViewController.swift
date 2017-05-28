@@ -60,7 +60,7 @@ class RouteViewController: UIViewController, CLLocationManagerDelegate, GMSMapVi
         let origin = originRoute
         let destination = destinationRoute
         
-        self.mapTasks.getDirections(from: origin, to: destination, waypoints: nil, travelMode: travelMode) { (status, success) -> Void in
+        self.mapTasks.getDirections(from: origin, to: destination, waypoints: nil, travelMode: TravelModes.walking) { (status, success) -> Void in
             if success {
                 self.configureMapAndMarkersforRoute()
                 self.drawRoute()
@@ -170,7 +170,7 @@ class RouteViewController: UIViewController, CLLocationManagerDelegate, GMSMapVi
         if (routePolyline) != nil {
             clearRoute()
             
-            mapTasks.getDirections(from: mapTasks.originAddress, to: mapTasks.destinationAddress, waypoints: waypointsArray, travelMode: travelMode, completionHandler: { (status, success) -> Void in
+            mapTasks.getDirections(from: mapTasks.originAddress, to: mapTasks.destinationAddress, waypoints: waypointsArray, travelMode: TravelModes.walking, completionHandler: { (status, success) -> Void in
                 if success {
                     self.configureMapAndMarkersforRoute()
                     self.drawRoute()

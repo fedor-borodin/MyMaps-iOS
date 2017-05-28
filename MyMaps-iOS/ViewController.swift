@@ -9,11 +9,11 @@
 import UIKit
 import GoogleMaps
 
-enum TravelModes: Int {
-    case driving
-    case walking
-    case bicycling
-}
+//enum TravelModes: Int {
+//    case driving
+//    case walking
+//    case bicycling
+//}
 
 //struct StreetViewAttributes {
 //    var coordinates: CLLocationCoordinate2D?
@@ -25,7 +25,7 @@ enum TravelModes: Int {
 //var streetViewTarget: StreetViewAttributes?
 var originRoute: String?
 var destinationRoute: String?
-var travelMode = TravelModes.walking
+//var travelMode = TravelModes.walking
 
 class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate {
 
@@ -96,15 +96,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
         let actionSheet = UIAlertController(title: "Travel Modes", message: "Select travel mode:", preferredStyle: .actionSheet)
         
         let drivingModeAction = UIAlertAction(title: "Driving", style: .default) { (alertAction) -> Void in
-            travelMode = TravelModes.driving
+            //travelMode = TravelModes.driving
         }
         
         let walkingModeAction = UIAlertAction(title: "Walking", style: .default) { (alertAction) -> Void in
-            travelMode = TravelModes.walking
+            //travelMode = TravelModes.walking
         }
         
         let bicyclingModeAction = UIAlertAction(title: "Bicycling", style: .default) { (alertAction) -> Void in
-            travelMode = TravelModes.bicycling
+            //travelMode = TravelModes.bicycling
         }
         
         let closeAction = UIAlertAction(title: "Close", style: .cancel) { (alertAction) -> Void in
