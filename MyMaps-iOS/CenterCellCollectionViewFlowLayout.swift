@@ -6,6 +6,8 @@
 //  Copyright © 2017 fborodin. All rights reserved.
 //
 
+// MARK: - THIS IS OBSOLETE. Probably won't need this class again
+
 import UIKit
 
 class CenterCellCollectionViewFlowLayout: UICollectionViewFlowLayout {

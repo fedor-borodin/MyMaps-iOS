@@ -114,9 +114,9 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
                     self.mapViewHalfSizeConstraint?.priority = 999
                     self.mapViewHalfSizeConstraint?.isActive = true
                     self.addressInputs?.isHidden = true
+                    self.streetViewColletion.reloadData()
                 }
                 //self.getStreetViewImage(stepNo: 0)
-                self.streetViewColletion.reloadData()
             } else {
                 self.showAlertWithMessage(status)
             }
@@ -360,21 +360,25 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "streetViewCollectionCell", for: indexPath) as! CollectionViewCell
         
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let _ = directionsTasks.selectedRoute {
+            let myCell = cell as! CollectionViewCell
             
             getStepPolylineAndMarker(stepNo: indexPath.section)
             
             getStreetViewImage(stepNo: indexPath.section) { (status, success) -> Void in
                 if success {
                     if let image = self.currentStreetViewImage {
-                        cell.imageView.image = image
+                        myCell.imageView.image = image
                     }
                 } else {
                     self.showAlertWithMessage(status)
                 }
             }
         }
-        return cell
     }
     
     //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
