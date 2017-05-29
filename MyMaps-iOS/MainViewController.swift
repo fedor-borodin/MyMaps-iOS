@@ -105,12 +105,14 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
         
         directionsTasks.getDirections(from: directionsTasks.originAddress, to: directionsTasks.destinationAddress, waypoints: nil, travelMode: currentTravelMode) { (status, success) -> Void in
             if success {
-                self.configureMapAndMarkersforRoute()
-                self.drawRoute()
+                //self.configureMapAndMarkersforRoute()
+                //self.drawRoute()
                 //self.displayRouteInfo()
                 //self.displayStreetViewImage(step: 0)
                 
                 DispatchQueue.main.async {
+                    self.configureMapAndMarkersforRoute()
+                    self.drawRoute()
                     self.mapViewHalfSizeConstraint?.priority = 999
                     self.mapViewHalfSizeConstraint?.isActive = true
                     self.addressInputs?.isHidden = true
@@ -124,8 +126,7 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func configureMapAndMarkersforRoute() {
-        // FIXME: - somehow uncaught exception occurs here on simulator only
-        mapView.camera = GMSCameraPosition.camera(withTarget: directionsTasks.originCoordinate, zoom: defaultMapZoomValue)
+        //mapView.camera = GMSCameraPosition.camera(withTarget: directionsTasks.originCoordinate, zoom: defaultMapZoomValue)
         
         // zoom on the whole route using bounds from JSON
         //let mapUpdate = GMSCameraUpdate.fit(self.directionsTasks.selectedRouteBounds, withPadding: 50.0)
@@ -208,7 +209,6 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
     }
     
     // MARK: - Street View Logic
-    // FIXME: - this shit is totally broken. Shows +1 or -1 step polyline whatever i try
     func getStepPolylineAndMarker(stepNo: Int) {
         if currentStepPolyline != nil {
             currentStepPolyline.map = nil
@@ -366,9 +366,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let _ = directionsTasks.selectedRoute {
             let myCell = cell as! CollectionViewCell
-            
             getStepPolylineAndMarker(stepNo: indexPath.section)
-            
             getStreetViewImage(stepNo: indexPath.section) { (status, success) -> Void in
                 if success {
                     if let image = self.currentStreetViewImage {
