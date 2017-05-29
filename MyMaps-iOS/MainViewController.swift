@@ -46,6 +46,9 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
     var waypointsArray: Array<String> = []
     var textFieldEditingNow: UITextField!
     var currentStreetViewImage: UIImage!
+    var stepMarker: GMSMarker!
+    var currentStepPolyline: GMSPolyline!
+    
     
     // MARK: - Methods
     // when tapping on the searchTextField we present a GooglePlaces AutoComplete VC
@@ -61,7 +64,7 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
         displayRoute()
         //getFirstStreetViewImage()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -121,27 +124,28 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func configureMapAndMarkersforRoute() {
-        // FIXME: - somehow uncaught exception occurs here on simulator (only)
-        //mapView.camera = GMSCameraPosition.camera(withTarget: directionsTasks.originCoordinate, zoom: defaultMapZoomValue)
+        // FIXME: - somehow uncaught exception occurs here on simulator only
+        mapView.camera = GMSCameraPosition.camera(withTarget: directionsTasks.originCoordinate, zoom: defaultMapZoomValue)
         
-        let mapUpdate = GMSCameraUpdate.fit(self.directionsTasks.selectedRouteBounds, withPadding: 50.0)
-        mapView.moveCamera(mapUpdate)
+        // zoom on the whole route using bounds from JSON
+        //let mapUpdate = GMSCameraUpdate.fit(self.directionsTasks.selectedRouteBounds, withPadding: 50.0)
+        //mapView.moveCamera(mapUpdate)
         
         if originMarker == nil {
             originMarker = GMSMarker()
         }
-        originMarker.position = self.directionsTasks.originCoordinate
-        originMarker.map = self.mapView
-        originMarker.icon = GMSMarker.markerImage(with: .green)
-        originMarker.title = self.directionsTasks.originAddress
+        originMarker.position = directionsTasks.originCoordinate
+        originMarker.map = mapView
+        originMarker.icon = GMSMarker.markerImage(with: .cyan)
+        originMarker.title = directionsTasks.originAddress
         
         if destinationMarker == nil {
             destinationMarker = GMSMarker()
         }
-        destinationMarker.position = self.directionsTasks.destinationCoordinate
-        destinationMarker.map = self.mapView
+        destinationMarker.position = directionsTasks.destinationCoordinate
+        destinationMarker.map = mapView
         destinationMarker.icon = GMSMarker.markerImage(with: .red)
-        destinationMarker.title = self.directionsTasks.destinationAddress
+        destinationMarker.title = directionsTasks.destinationAddress
         
         if waypointsArray.count > 0 {
             for waypoint in waypointsArray {
@@ -204,6 +208,37 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
     }
     
     // MARK: - Street View Logic
+    // FIXME: - this shit is totally broken. Shows +1 or -1 step polyline whatever i try
+    func getStepPolylineAndMarker(stepNo: Int) {
+        if currentStepPolyline != nil {
+            currentStepPolyline.map = nil
+            currentStepPolyline = nil
+        }
+        if stepMarker != nil {
+            stepMarker.map = nil
+            stepMarker = nil
+        }
+        
+        let steps = (directionsTasks.selectedRoute["legs"] as! Array<[String:AnyObject]>)[0]["steps"] as! Array<[String:AnyObject]>
+        let stepPolyline = steps[stepNo]["polyline"] as! [String:AnyObject]
+        let path = GMSPath(fromEncodedPath: stepPolyline["points"] as! String)
+        currentStepPolyline = GMSPolyline(path: path)
+        currentStepPolyline.strokeColor = .green
+        currentStepPolyline.strokeWidth = defaultRoutePolylineWidth + 2
+        currentStepPolyline.geodesic = true
+        currentStepPolyline.map = mapView
+        
+        let stepPointFrom = CLLocationCoordinate2DMake((steps[stepNo]["start_location"] as! [String:AnyObject])["lat"] as! Double, (steps[stepNo]["start_location"] as! [String:AnyObject])["lng"] as! Double)
+        let stepPointTo = CLLocationCoordinate2DMake((steps[stepNo]["end_location"] as! [String:AnyObject])["lat"] as! Double, (steps[stepNo]["end_location"] as! [String:AnyObject])["lng"] as! Double)
+        let currentStepBounds = GMSCoordinateBounds(coordinate: stepPointFrom, coordinate: stepPointTo)
+        let mapUpdate = GMSCameraUpdate.fit(currentStepBounds, withPadding: 50.0)
+        mapView.moveCamera(mapUpdate)
+        
+        stepMarker = GMSMarker(position: stepPointFrom)
+        stepMarker.map = mapView
+        stepMarker.icon = GMSMarker.markerImage(with: .green)
+    }
+    
     func getStreetViewImage(stepNo: Int, completionHandler: @escaping ((String, Bool) -> Void)) {
         let steps = (directionsTasks.selectedRoute["legs"] as! Array<[String:AnyObject]>)[0]["steps"] as! Array<[String:AnyObject]>
         let pointFrom = CLLocationCoordinate2DMake((steps[stepNo]["start_location"] as! [String:AnyObject])["lat"] as! Double, (steps[stepNo]["start_location"] as! [String:AnyObject])["lng"] as! Double)
@@ -216,7 +251,7 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
                 completionHandler(status, true)
             } else {
                 completionHandler(status, false)
-               //self.showAlertWithMessage(status)
+                //self.showAlertWithMessage(status)
             }
         }
     }
@@ -314,18 +349,21 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             return 0
         }
         //return 1
-//        if let legs = directionsTasks.selectedRoute["legs"] as! Array<[String:AnyObject]> {
-//            let steps = legs[0]["steps"] as! Array<[String:AnyObject]>
-//            return steps.count
-//        } else {
-//            return 0
-//        }
+        //        if let legs = directionsTasks.selectedRoute["legs"] as! Array<[String:AnyObject]> {
+        //            let steps = legs[0]["steps"] as! Array<[String:AnyObject]>
+        //            return steps.count
+        //        } else {
+        //            return 0
+        //        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "streetViewCollectionCell", for: indexPath) as! CollectionViewCell
         
         if let _ = directionsTasks.selectedRoute {
+            
+            getStepPolylineAndMarker(stepNo: indexPath.section)
+            
             getStreetViewImage(stepNo: indexPath.section) { (status, success) -> Void in
                 if success {
                     if let image = self.currentStreetViewImage {
@@ -339,7 +377,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 200, height: 200)
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    //        return CGSize(width: 200, height: 200)
+    //    }
 }

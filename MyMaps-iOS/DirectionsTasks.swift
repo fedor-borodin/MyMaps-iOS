@@ -27,6 +27,7 @@ class DirectionsTasks: NSObject {
     var totalDurationInSeconds: UInt = 0
     var totalDuration: String!
     var selectedRouteBounds: GMSCoordinateBounds!
+    //var routeStepsBounds: [GMSCoordinateBounds]!
     
     override init() {
         super.init()
