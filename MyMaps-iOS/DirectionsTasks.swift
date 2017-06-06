@@ -27,7 +27,6 @@ class DirectionsTasks: NSObject {
     var totalDurationInSeconds: UInt = 0
     var totalDuration: String!
     var selectedRouteBounds: GMSCoordinateBounds!
-    //var routeStepsBounds: [GMSCoordinateBounds]!
     
     override init() {
         super.init()
@@ -65,11 +64,9 @@ class DirectionsTasks: NSObject {
                 }
                 
                 guard let directionsURL = URL(string: directionsURLString) else {
-                    //print("Error while fetching  directions")
                     DispatchQueue.main.async {
                         completionHandler("Error while fetching directions", false)
                     }
-                    
                     return
                 }
                 let request = URLRequest(url: directionsURL)

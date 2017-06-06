@@ -48,6 +48,7 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
     var currentStreetViewImage: UIImage!
     var stepMarker: GMSMarker!
     var currentStepPolyline: GMSPolyline!
+    var currentStepInstructions: NSAttributedString!
     
     
     // MARK: - Methods
@@ -59,10 +60,23 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
         present(acController, animated: true, completion: nil)
     }
     
-    // fetch the Route and display it
+    // fetch the Route and display it or Go Back to the Start
     @IBAction func goButtonPressed(_ sender: UIButton) {
-        displayRoute()
-        //getFirstStreetViewImage()
+        if sender.currentTitle == "Go" {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            goButton.setTitle("⬅︎", for: .normal)
+            displayRoute()
+        } else {
+            goButton.setTitle("Go", for: .normal)
+            addressInputs.isHidden = false
+            searchAddressTo.text = ""
+            searchAddressFrom.isHidden = true
+            mapViewHalfSizeConstraint.priority = 800
+            clearRoute()
+            clearStepRoute()
+            let camera = GMSCameraPosition.camera(withTarget: (locationManager.location?.coordinate)!, zoom: defaultMapZoomValue)
+            mapView.animate(to: camera)
+        }
     }
     
     override func viewDidLoad() {
@@ -105,11 +119,6 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
         
         directionsTasks.getDirections(from: directionsTasks.originAddress, to: directionsTasks.destinationAddress, waypoints: nil, travelMode: currentTravelMode) { (status, success) -> Void in
             if success {
-                //self.configureMapAndMarkersforRoute()
-                //self.drawRoute()
-                //self.displayRouteInfo()
-                //self.displayStreetViewImage(step: 0)
-                
                 DispatchQueue.main.async {
                     self.configureMapAndMarkersforRoute()
                     self.drawRoute()
@@ -118,7 +127,6 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
                     self.addressInputs?.isHidden = true
                     self.streetViewColletion.reloadData()
                 }
-                //self.getStreetViewImage(stepNo: 0)
             } else {
                 self.showAlertWithMessage(status)
             }
@@ -126,12 +134,6 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func configureMapAndMarkersforRoute() {
-        //mapView.camera = GMSCameraPosition.camera(withTarget: directionsTasks.originCoordinate, zoom: defaultMapZoomValue)
-        
-        // zoom on the whole route using bounds from JSON
-        //let mapUpdate = GMSCameraUpdate.fit(self.directionsTasks.selectedRouteBounds, withPadding: 50.0)
-        //mapView.moveCamera(mapUpdate)
-        
         if originMarker == nil {
             originMarker = GMSMarker()
         }
@@ -192,6 +194,17 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
         markersArray.removeAll(keepingCapacity: false)
     }
     
+    func clearStepRoute() {
+        if currentStepPolyline != nil {
+            currentStepPolyline.map = nil
+            currentStepPolyline = nil
+        }
+        if stepMarker != nil {
+            stepMarker.map = nil
+            stepMarker = nil
+        }
+    }
+    
     func recreateRoute() {
         if (routePolyline) != nil {
             clearRoute()
@@ -208,18 +221,12 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    // MARK: - Street View Logic
+    // MARK: - Steps Logic
     func getStepPolylineAndMarker(stepNo: Int) {
-        if currentStepPolyline != nil {
-            currentStepPolyline.map = nil
-            currentStepPolyline = nil
-        }
-        if stepMarker != nil {
-            stepMarker.map = nil
-            stepMarker = nil
-        }
+        clearStepRoute()
         
         let steps = (directionsTasks.selectedRoute["legs"] as! Array<[String:AnyObject]>)[0]["steps"] as! Array<[String:AnyObject]>
+        currentStepInstructions = getAttributedStringFromHTML(text: steps[stepNo]["html_instructions"] as! String)
         let stepPolyline = steps[stepNo]["polyline"] as! [String:AnyObject]
         let path = GMSPath(fromEncodedPath: stepPolyline["points"] as! String)
         currentStepPolyline = GMSPolyline(path: path)
@@ -246,140 +253,29 @@ class MainViewController: UIViewController, GMSMapViewDelegate {
         
         streetViewTasks.getStreetViewImage(fromPoint: pointFrom, toPoint: pointTo, size: streetViewTasks.defaultStreetViewSize) { (status, success) -> Void in
             if success {
-                self.currentStreetViewImage = UIImage(data: self.streetViewTasks.streetViewImageData)
-                //self.streetViewColletion.reloadData()
-                completionHandler(status, true)
+                DispatchQueue.main.async {
+                    self.currentStreetViewImage = UIImage(data: self.streetViewTasks.streetViewImageData)
+                    completionHandler(status, true)
+                }
             } else {
-                completionHandler(status, false)
-                //self.showAlertWithMessage(status)
-            }
-        }
-    }
-}
-
-// MARK: - Location Manager Delegate
-extension MainViewController: CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            mapView.isMyLocationEnabled = true
-        }
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if !didFindMyLocation {
-            let myLocation: CLLocation = change![NSKeyValueChangeKey.newKey] as! CLLocation
-            mapView.camera = GMSCameraPosition.camera(withTarget: myLocation.coordinate, zoom: defaultMapZoomValue)
-            mapView.settings.myLocationButton = true
-            
-            didFindMyLocation = true
-        }
-    }
-}
-
-// MARK: - Google Places Autocomplete Delegate
-extension MainViewController: GMSAutocompleteViewControllerDelegate {
-    
-    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        //print("Place name: \(place.name)\naddress: \(place.formattedAddress ?? "NONE")\nattributions: \(place.attributions ?? NSAttributedString(string: "NONE", attributes: nil))")
-        dismiss(animated: true) { () -> Void in
-            self.userDidEnterNewAddress(place)
-        }
-    }
-    
-    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        //print("Error: \(error)")
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        //print("Autocomplete cancelled by user")
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func userDidEnterNewAddress(_ place: GMSPlace) {
-        if textFieldEditingNow == searchAddressFrom {
-            searchAddressFrom.text = place.name
-            directionsTasks.originAddress = place.formattedAddress
-        } else {
-            let camera = GMSCameraPosition.camera(withTarget: place.coordinate, zoom: defaultMapZoomValue)
-            mapView.camera = camera
-            marker = GMSMarker()
-            marker!.title = place.name
-            marker!.position = place.coordinate
-            marker!.map = mapView
-            searchAddressTo.text = place.name
-            directionsTasks.destinationAddress = place.formattedAddress
-            
-            if didFindMyLocation && searchAddressFrom.isHidden {
-                let myCoordinates = "\(locationManager.location?.coordinate.latitude ?? 0),\(locationManager.location?.coordinate.longitude ?? 0)"
-                geocodingTasks.geocodeAddress(address: myCoordinates, usingCoordinates: true) { (status, success) -> Void in
-                    if success {
-                        self.directionsTasks.originAddress = self.geocodingTasks.fetchedFormattedAddress
-                        self.searchAddressFrom.text = "My Location"
-                        self.searchAddressFrom.isHidden = false
-                        self.goButton.isHidden = false
-                    } else {
-                        self.showAlertWithMessage(status)
-                    }
-                }
-            }
-        }
-        
-        if searchAddressTo.text != "" && searchAddressFrom.text != "" {
-            goButton.isHidden = false
-        }
-    }
-}
-
-// MARK: - Collection View Delegate
-extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if let route = directionsTasks.selectedRoute {
-            let legs = route["legs"] as! Array<[String:AnyObject]>
-            let steps = legs[0]["steps"] as! Array<[String:AnyObject]>
-            
-            return steps.count
-        } else {
-            return 0
-        }
-        //return 1
-        //        if let legs = directionsTasks.selectedRoute["legs"] as! Array<[String:AnyObject]> {
-        //            let steps = legs[0]["steps"] as! Array<[String:AnyObject]>
-        //            return steps.count
-        //        } else {
-        //            return 0
-        //        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "streetViewCollectionCell", for: indexPath) as! CollectionViewCell
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let _ = directionsTasks.selectedRoute {
-            let myCell = cell as! CollectionViewCell
-            getStepPolylineAndMarker(stepNo: indexPath.section)
-            getStreetViewImage(stepNo: indexPath.section) { (status, success) -> Void in
-                if success {
-                    if let image = self.currentStreetViewImage {
-                        myCell.imageView.image = image
-                    }
-                } else {
-                    self.showAlertWithMessage(status)
+                DispatchQueue.main.async {
+                    completionHandler(status, false)
                 }
             }
         }
     }
     
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    //        return CGSize(width: 200, height: 200)
-    //    }
+    func getAttributedStringFromHTML(text: String) -> NSAttributedString? {
+        do {
+            if let data = text.data(using: .unicode, allowLossyConversion: true) {
+                let str = try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                return str
+            } else {
+                return nil
+            }
+        } catch let error as NSError {
+            showAlertWithMessage(error.localizedDescription)
+            return nil
+        }
+    }
 }

@@ -28,7 +28,6 @@ class GeocodingTasks: NSObject {
     func geocodeAddress(address: String!, usingCoordinates: Bool, completionHandler: @escaping ((String, Bool) -> Void)) {
         if let lookupAddress = address {
             let geocodeURLString = baseURLGeocode + (usingCoordinates ? "latlng=" + lookupAddress : "address=" + lookupAddress.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)
-            //            print(geocodeURLString)               // logging URL-request
             guard let geocodeURL = URL(string: geocodeURLString) else { return }
             let request = URLRequest(url: geocodeURL)
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -45,15 +44,7 @@ class GeocodingTasks: NSObject {
                             let geometry = self.lookupAddressResults["geometry"] as! [String:AnyObject]
                             self.fetchedAddressLongtitude = ((geometry["location"] as! [String:AnyObject])["lng"] as! NSNumber).doubleValue
                             self.fetchedAddressLatitude = ((geometry["location"] as! [String:AnyObject])["lat"] as! NSNumber).doubleValue
-                            //                            var iteratorResults = 0
-                            //                            for result in allResults {
-                            //                                self.lookupAddressResults[iteratorResults] = result
-                            //                                self.fetchedFormattedAddress[iteratorResults] = self.lookupAddressResults[iteratorResults]?["formatted_address"] as! String
-                            //                                let geometry = self.lookupAddressResults[iteratorResults]?["geometry"] as! [String:AnyObject]
-                            //                                self.fetchedAddressLongtitude[iteratorResults] = ((geometry["location"] as! [String:AnyObject])["lng"] as! NSNumber).doubleValue
-                            //                                self.fetchedAddressLatitude[iteratorResults] = ((geometry["location"] as! [String:AnyObject])["lat"] as! NSNumber).doubleValue
-                            //                                iteratorResults += 1
-                            //                            }
+                            
                             DispatchQueue.main.async {
                                 completionHandler(status, true)
                             }

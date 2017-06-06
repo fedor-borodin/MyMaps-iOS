@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0CD072CB333D82B9B65F78E9 /* libPods-MyMaps-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00344D0E72EDEB35B34DED01 /* libPods-MyMaps-iOS.a */; };
+		84162F821EE52827001C26F6 /* CollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84162F811EE52827001C26F6 /* CollectionViewDelegate.swift */; };
+		84162F841EE528A0001C26F6 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84162F831EE528A0001C26F6 /* LocationManagerDelegate.swift */; };
+		84162F861EE52916001C26F6 /* GooglePlacesAutocompleteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84162F851EE52916001C26F6 /* GooglePlacesAutocompleteDelegate.swift */; };
 		848DED121EC080F800668E0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848DED111EC080F800668E0F /* AppDelegate.swift */; };
 		848DED141EC080F800668E0F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848DED131EC080F800668E0F /* ViewController.swift */; };
 		848DED171EC080F800668E0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 848DED151EC080F800668E0F /* Main.storyboard */; };
@@ -28,6 +31,9 @@
 		00344D0E72EDEB35B34DED01 /* libPods-MyMaps-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyMaps-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F90DE3FDFBAE93A00F1F36 /* Pods-MyMaps-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMaps-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyMaps-iOS/Pods-MyMaps-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		434D27C01AFEF2FCC175819E /* Pods-MyMaps-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMaps-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyMaps-iOS/Pods-MyMaps-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		84162F811EE52827001C26F6 /* CollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDelegate.swift; sourceTree = "<group>"; };
+		84162F831EE528A0001C26F6 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
+		84162F851EE52916001C26F6 /* GooglePlacesAutocompleteDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesAutocompleteDelegate.swift; sourceTree = "<group>"; };
 		848DED0E1EC080F800668E0F /* MyMaps-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MyMaps-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		848DED111EC080F800668E0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		848DED131EC080F800668E0F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +73,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		84162F871EE529A1001C26F6 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				84162F811EE52827001C26F6 /* CollectionViewDelegate.swift */,
+				84162F831EE528A0001C26F6 /* LocationManagerDelegate.swift */,
+				84162F851EE52916001C26F6 /* GooglePlacesAutocompleteDelegate.swift */,
+			);
+			name = Delegates;
+			sourceTree = "<group>";
+		};
 		848DED051EC080F800668E0F = {
 			isa = PBXGroup;
 			children = (
@@ -88,11 +104,13 @@
 		848DED101EC080F800668E0F /* MyMaps-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				848ED0B11ECCE15D006F16FE /* NewStoryboard.storyboard */,
+				848ED0B41ED31080006F16FE /* MainViewController.swift */,
+				84E245B81EDB15F500CE804E /* CollectionViewCell.swift */,
+				84162F871EE529A1001C26F6 /* Delegates */,
+				84E245931ED7113900CE804E /* Map Tasks */,
 				84E245951ED7118100CE804E /* Support Files */,
 				84E245941ED7115700CE804E /* Old Stuff */,
-				84E245931ED7113900CE804E /* Map Tasks */,
-				848ED0B41ED31080006F16FE /* MainViewController.swift */,
-				848ED0B11ECCE15D006F16FE /* NewStoryboard.storyboard */,
 			);
 			path = "MyMaps-iOS";
 			sourceTree = "<group>";
@@ -113,6 +131,7 @@
 				848DED131EC080F800668E0F /* ViewController.swift */,
 				84D8868B1EC9ECC000C15954 /* RouteViewController.swift */,
 				84D886891EC9E38700C15954 /* MapTasks.swift */,
+				84E245B61EDB0A4900CE804E /* CenterCellCollectionViewFlowLayout.swift */,
 				848DED151EC080F800668E0F /* Main.storyboard */,
 			);
 			name = "Old Stuff";
@@ -122,8 +141,6 @@
 			isa = PBXGroup;
 			children = (
 				848DED111EC080F800668E0F /* AppDelegate.swift */,
-				84E245B81EDB15F500CE804E /* CollectionViewCell.swift */,
-				84E245B61EDB0A4900CE804E /* CenterCellCollectionViewFlowLayout.swift */,
 				848DED1D1EC080F800668E0F /* Info.plist */,
 				848DED1A1EC080F800668E0F /* LaunchScreen.storyboard */,
 				848DED181EC080F800668E0F /* Assets.xcassets */,
@@ -274,6 +291,9 @@
 				848ED0B51ED31080006F16FE /* MainViewController.swift in Sources */,
 				84E245B71EDB0A4900CE804E /* CenterCellCollectionViewFlowLayout.swift in Sources */,
 				848ED0B91ED3AF48006F16FE /* GeocodingTasks.swift in Sources */,
+				84162F821EE52827001C26F6 /* CollectionViewDelegate.swift in Sources */,
+				84162F861EE52916001C26F6 /* GooglePlacesAutocompleteDelegate.swift in Sources */,
+				84162F841EE528A0001C26F6 /* LocationManagerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
